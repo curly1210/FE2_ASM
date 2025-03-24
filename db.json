@@ -1,0 +1,52 @@
+{
+  "products": [
+    {
+      "name": "samsung s25",
+      "price": 12,
+      "quantity": 123123,
+      "categoryID": 2,
+      "image": "https://cdn.tgdd.vn/Products/Images/42/333359/samsung-galaxy-s25-plus-blue-thumb-600x600.jpg",
+      "description": "dsd",
+      "id": 2
+    },
+    {
+      "name": "cuong",
+      "price": 12,
+      "quantity": 12,
+      "categoryID": 1,
+      "image": "https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Ekko_19.jpg",
+      "description": "sdas",
+      "id": 8
+    }
+  ],
+  "categories": [
+    {
+      "id": 1,
+      "name": "iphone"
+    },
+    {
+      "id": 2,
+      "name": "samsung"
+    }
+  ],
+  "users": [
+    {
+      "email": "oanh@gmail.com",
+      "password": "$2a$10$DEak9d8mQ882VscO4EM8Be710AslzVMryL4wAfFhcKzpFn0YisSQq",
+      "id": 1,
+      "fullname": "Olivier",
+      "sex": "Nữ",
+      "phone": "0766004415",
+      "role": "user"
+    },
+    {
+      "email": "cuong@gmail.com",
+      "password": "$2a$10$Q1yd.75.muZC8E.CyqtKVeYwN2nfkoudaucumKi/oY9vNNzL6IjZ.",
+      "fullname": "Olivier",
+      "sex": "Nữ",
+      "phone": "0766004415",
+      "role": "admin",
+      "id": 2
+    }
+  ]
+}
