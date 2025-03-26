@@ -8,8 +8,6 @@ type PrivateRouterProps = {
 
 const PrivateRouter = ({ role }: PrivateRouterProps) => {
   const { user } = useAuthen(); // Lấy user từ AuthContext
-  console.log("PRIVATE", user);
-
   if (!user) {
     return <Navigate to="/login" replace />;
   }

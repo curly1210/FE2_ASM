@@ -14,6 +14,8 @@ import Login from "./pages/Client/Login";
 import { AuthenProvider } from "./Context/AuthContext";
 import RedirectIfAuthenticated from "./components/RedirectIfAuthenticated";
 import PrivateRouter from "./components/PrivateRouter";
+import CartPage from "./pages/Client/CartPage";
+import RequireAuth from "./components/RequireAuth";
 function App() {
   return (
     <>
@@ -53,6 +55,9 @@ function App() {
             <Route index element={<HomePage />} />
             <Route element={<RedirectIfAuthenticated />}>
               <Route path="login" element={<Login />} />
+            </Route>
+            <Route element={<RequireAuth />}>
+              <Route path="carts" element={<CartPage />} />
             </Route>
           </Route>
           <Route path="*" element={<h1>404 not found</h1>} />

@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import axios from "axios";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
 import { useAuthen } from "../../Context/AuthContext";
+import { useLogin } from "../../hooks/useLogin";
 
 const Login = () => {
   const { setUser } = useAuthen();
+  const { mutate } = useLogin({ resource: "login" });
 
   const {
     register,
@@ -14,24 +14,19 @@ const Login = () => {
     formState: { errors },
   } = useForm();
 
-  const navigation = useNavigate();
+  // const navigation = useNavigate();
 
-  const onSubmit = async (dataForm: any) => {
-    try {
-      const { data } = await axios.post(
-        `http://localhost:3000/login`,
-        dataForm
-      );
-      localStorage.setItem("user", JSON.stringify(data));
-      setUser(data);
-      // console.log(data);
-      // console.log(localStorage.getItem("user"));
-      toast.success("Đăng nhập thành công");
-      navigation("/");
-    } catch (error) {
-      console.log(error);
-      toast.error("Sai tài khoản hoặc mật khẩu");
-    }
+  const onSubmit = async (value: any) => {
+    mutate(value, {
+      onSuccess: (data) => {
+        localStorage.setItem("user", JSON.stringify(data));
+        setUser(data);
+        toast.success("Đăng nhập thành công");
+      },
+      onError: () => {
+        toast.error("Đăng nhập thất bại");
+      },
+    });
   };
 
   return (
