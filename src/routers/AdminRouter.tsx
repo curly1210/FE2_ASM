@@ -1,4 +1,4 @@
-import { Outlet, Route } from "react-router-dom";
+import { Outlet, Route, Routes } from "react-router-dom";
 import PrivateRouter from "../components/PrivateRouter";
 import LayoutAdmin from "../components/LayoutAmin";
 import Dashboard from "../pages/Admin/Dashboard";
@@ -9,29 +9,31 @@ import UserListPage from "../pages/Admin/users/list";
 
 const AdminRouter = () => {
   return (
-    <Route element={<PrivateRouter role="admin" />}>
-      <Route
-        path="admin"
-        element={
-          // <Authenticated fallback={<Navigate to="/login" replace />}>
-          <LayoutAdmin>
-            <Outlet />
-          </LayoutAdmin>
-          // </Authenticated>
-        }
-      >
-        <Route index element={<Dashboard />} />
-        <Route path="products">
-          <Route index element={<ProductListPage />} />
-          <Route path="create" element={<ProductAdd />} />
-          <Route path="update/:id" element={<ProductUpdate />} />
-        </Route>
+    <Routes>
+      <Route element={<PrivateRouter role="admin" />}>
+        <Route
+          path="admin"
+          element={
+            // <Authenticated fallback={<Navigate to="/login" replace />}>
+            <LayoutAdmin>
+              <Outlet />
+            </LayoutAdmin>
+            // </Authenticated>
+          }
+        >
+          <Route index element={<Dashboard />} />
+          <Route path="products">
+            <Route index element={<ProductListPage />} />
+            <Route path="create" element={<ProductAdd />} />
+            <Route path="update/:id" element={<ProductUpdate />} />
+          </Route>
 
-        <Route path="users">
-          <Route index element={<UserListPage />} />
+          <Route path="users">
+            <Route index element={<UserListPage />} />
+          </Route>
         </Route>
       </Route>
-    </Route>
+    </Routes>
   );
 };
 export default AdminRouter;

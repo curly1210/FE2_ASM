@@ -1,9 +1,8 @@
-import { Dispatch, SetStateAction } from "react";
 import { useNavigate } from "react-router-dom";
 
 type ModalRequireLoginProps = {
   isOpen: boolean;
-  setIsOpen: Dispatch<SetStateAction<boolean>>;
+  setIsOpen: (isOpen: boolean) => void;
   navigate: ReturnType<typeof useNavigate>;
 };
 

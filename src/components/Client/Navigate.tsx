@@ -1,11 +1,11 @@
 import logo from "../../assets/logo.png";
 import toast from "react-hot-toast";
 import { useAuthen } from "../../Context/AuthContext";
-import { Dispatch, SetStateAction } from "react";
+// import { Dispatch, SetStateAction } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 type NavigateProps = {
-  setIsOpen: Dispatch<SetStateAction<boolean>>;
+  setIsOpen: (isOpen: boolean) => void;
   navigate: ReturnType<typeof useNavigate>;
 };
 

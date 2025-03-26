@@ -1,32 +1,50 @@
 {
   "products": [
     {
-      "name": "samsung s25",
-      "price": 12,
+      "name": "Ghế gỗ",
+      "price": 21000,
       "quantity": 123123,
-      "categoryID": 2,
-      "image": "https://cdn.tgdd.vn/Products/Images/42/333359/samsung-galaxy-s25-plus-blue-thumb-600x600.jpg",
+      "categoryID": 1,
+      "image": "https://dochoiphulong.com/wp-content/uploads/2020/10/ghe-go-mam-non-phu-long-pl0111c-6.jpg",
       "description": "dsd",
       "id": 2
     },
     {
-      "name": "cuong",
-      "price": 12,
+      "name": "Ghế trẻ em",
+      "price": 12000,
       "quantity": 12,
       "categoryID": 1,
-      "image": "https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Ekko_19.jpg",
+      "image": "https://bizweb.dktcdn.net/100/317/763/products/4-80e1ee81-e49c-4c69-94f3-c60371126f8a.png?v=1698303799553",
       "description": "sdas",
       "id": 8
+    },
+    {
+      "name": "Bàn gỗ",
+      "price": 12000,
+      "quantity": 25,
+      "categoryID": 2,
+      "image": "https://noithattoz.com/wp-content/uploads/2020/06/ban-chan-sat-1m2-BTT15-sp.jpg",
+      "description": "Ghế nè",
+      "id": 9
+    },
+    {
+      "name": "Bàn học",
+      "price": 50000,
+      "quantity": 25,
+      "categoryID": 2,
+      "image": "https://noithatfufutech.com/upload/sanpham/1-9700.jpg",
+      "description": "Hi",
+      "id": 10
     }
   ],
   "categories": [
     {
       "id": 1,
-      "name": "iphone"
+      "name": "Ghế"
     },
     {
       "id": 2,
-      "name": "samsung"
+      "name": "Bàn"
     }
   ],
   "users": [
@@ -54,19 +72,29 @@
       "id": 1,
       "idUser": 2,
       "idProduct": 2,
-      "quantity": 2
+      "quantity": 10,
+      "price": 21000
     },
     {
       "id": 2,
       "idUser": 1,
       "idProduct": 2,
-      "quantity": 2
+      "quantity": 2,
+      "price": 21000
     },
     {
       "id": 3,
       "idUser": 2,
       "idProduct": 8,
-      "quantity": 10
+      "quantity": 19,
+      "price": 12000
+    },
+    {
+      "idUser": 2,
+      "idProduct": 9,
+      "quantity": 1,
+      "price": 12000,
+      "id": 4
     }
   ]
 }

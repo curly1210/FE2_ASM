@@ -30,6 +30,11 @@ type deleteParams = {
   id: number;
 };
 
+// type getListCartParams = {
+//   resource: string;
+//   idUser: number | undefined;
+// };
+
 const dataProvider = {
   getList: async ({ resource }: getListParams) => {
     try {
@@ -93,6 +98,18 @@ const dataProvider = {
       throw new Error(error);
     }
   },
+  // getListCart: async ({ resource, idUser }: getListCartParams) => {
+  //   try {
+  //     const response = await axios.get(
+  //       `${API_URL}/${resource}?idUser=${idUser}`
+  //     );
+  //     if (response.status !== 200) new Error("Error");
+
+  //     return response.data;
+  //   } catch (error: any) {
+  //     throw new Error(error);
+  //   }
+  // },
 };
 
 export const { getList, getOne, create, update, remove } = dataProvider;

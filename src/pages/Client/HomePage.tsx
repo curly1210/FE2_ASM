@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import galery_1 from "../../assets/gallery_1.jpg";
 import galery_2 from "../../assets/gallery_2.png";
 import galery_3 from "../../assets/gallery_3.png";
@@ -9,10 +10,94 @@ import award from "../../assets/award.png";
 import ship from "../../assets/ship.png";
 import check from "../../assets/check.png";
 import banner from "../../assets/banner.jpg";
-import product from "../../assets/product_1.jpg";
+// import product from "../../assets/product_1.jpg";
 import { Link } from "react-router-dom";
+import useList from "../../hooks/useList";
+import { useAuthen } from "../../Context/AuthContext";
+import { useModal } from "../../Context/ModalContext";
+import axios from "axios";
+import toast from "react-hot-toast";
+// import useListCart from "../../hooks/useListCart";
 
 const HomePage = () => {
+  const { data } = useList({ resource: "products" });
+
+  const { user } = useAuthen();
+  const { setIsOpen } = useModal();
+
+  const formatCurrency = (amount: number) => {
+    return amount?.toLocaleString("vi-VN", {
+      style: "currency",
+      currency: "VND",
+    });
+  };
+
+  // const { data: carts } = useListCart({
+  //   resource: "carts",
+  //   idUser: user?.user?.id,
+  // });
+
+  // const getCart = () => {};
+  // console.log(carts);
+
+  const onAddToCart = async (idProduct: number, quantity = 1) => {
+    if (!user) {
+      console.log("cuong");
+      setIsOpen(true);
+    } else {
+      const { data: cartItems } = await axios.get(
+        `http://localhost:3000/carts?idUser=${user?.user.id}`
+      );
+
+      const existingItem = cartItems.find(
+        (item: any) => item.idProduct === idProduct
+      );
+
+      if (existingItem) {
+        updateCartItem(existingItem.id, existingItem.quantity + quantity);
+      } else {
+        const { data: product } = await axios.get(
+          `http://localhost:3000/products/${idProduct}`
+        );
+        createCartItem(user?.user.id, idProduct, quantity, product.price);
+      }
+
+      toast.success("Thêm vào giỏ hàng thành công");
+      // const cartItems = useList({ resource: "carts" });
+    }
+  };
+
+  const updateCartItem = async (idCart: number, quantity: number) => {
+    try {
+      const { data } = await axios.patch(
+        `http://localhost:3000/carts/${idCart}`,
+        { quantity }
+      );
+      return data;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const createCartItem = async (
+    idUser: number,
+    idProduct: number,
+    quantity: number,
+    price: number
+  ) => {
+    try {
+      const { data } = await axios.post(`http://localhost:3000/carts`, {
+        idUser,
+        idProduct,
+        quantity,
+        price,
+      });
+      return data;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div>
       {/* Start banner */}
@@ -34,90 +119,32 @@ const HomePage = () => {
           </Link>
         </div>
         <div className="grid grid-cols-4 gap-8">
-          <div>
-            <div className="overflow-hidden">
-              <img
-                src={product}
-                alt=""
-                className="hover:scale-125 duration-300"
-              />
+          {data?.map((product: any) => (
+            <div key={product.id}>
+              <div className="overflow-hidden">
+                <img
+                  src={product.image}
+                  alt=""
+                  className="hover:scale-125 w-full h-72  duration-300"
+                />
+              </div>
+              <div className="bg-[#F5F5F5]  p-4">
+                <h3 className="font-semibold text-xl mb-1">{product.name}</h3>
+                {/* <p className="text-[#898989] text-base mb-2">
+                  Stylish cafe chair
+                </p> */}
+                <p className="font-semibold text-xl text-red-600 mb-3">
+                  {formatCurrency(product.price)}
+                </p>
+                <button
+                  onClick={() => onAddToCart(product.id)}
+                  className="border border-solid duration-300 cursor-pointer hover:bg-yellow-700 hover:text-white border-yellow-700 text-yellow-700 w-full font-semibold text-base py-2"
+                >
+                  Thêm vào giỏ
+                </button>
+              </div>
             </div>
-            <div className="bg-[#F5F5F5]  p-4">
-              <h3 className="font-semibold text-xl mb-1">Syltherine</h3>
-              <p className="text-[#898989] text-base mb-2">
-                Stylish cafe chair
-              </p>
-              <p className="font-semibold text-xl text-red-600 mb-3">
-                2.500.000đ
-              </p>
-              <button className="border border-solid duration-300 hover:bg-yellow-700 hover:text-white border-yellow-700 text-yellow-700 w-full font-semibold text-base py-2">
-                Thêm vào giỏ
-              </button>
-            </div>
-          </div>
-          <div>
-            <div className="overflow-hidden">
-              <img
-                src={product}
-                alt=""
-                className="hover:scale-125 duration-300"
-              />
-            </div>
-            <div className="bg-[#F5F5F5]  p-4">
-              <h3 className="font-semibold text-xl mb-1">Syltherine</h3>
-              <p className="text-[#898989] text-base mb-2">
-                Stylish cafe chair
-              </p>
-              <p className="font-semibold text-xl text-red-600 mb-3">
-                2.500.000đ
-              </p>
-              <button className="border border-solid duration-300 hover:bg-yellow-700 hover:text-white border-yellow-700 text-yellow-700 w-full font-semibold text-base py-2">
-                Thêm vào giỏ
-              </button>
-            </div>
-          </div>
-          <div>
-            <div className="overflow-hidden">
-              <img
-                src={product}
-                alt=""
-                className="hover:scale-125 duration-300"
-              />
-            </div>
-            <div className="bg-[#F5F5F5]  p-4">
-              <h3 className="font-semibold text-xl mb-1">Syltherine</h3>
-              <p className="text-[#898989] text-base mb-2">
-                Stylish cafe chair
-              </p>
-              <p className="font-semibold text-xl text-red-600 mb-3">
-                2.500.000đ
-              </p>
-              <button className="border border-solid duration-300 hover:bg-yellow-700 hover:text-white border-yellow-700 text-yellow-700 w-full font-semibold text-base py-2">
-                Thêm vào giỏ
-              </button>
-            </div>
-          </div>
-          <div>
-            <div className="overflow-hidden">
-              <img
-                src={product}
-                alt=""
-                className="hover:scale-125 duration-300"
-              />
-            </div>
-            <div className="bg-[#F5F5F5]  p-4">
-              <h3 className="font-semibold text-xl mb-1">Syltherine</h3>
-              <p className="text-[#898989] text-base mb-2">
-                Stylish cafe chair
-              </p>
-              <p className="font-semibold text-xl text-red-600 mb-3">
-                2.500.000đ
-              </p>
-              <button className="border border-solid duration-300 hover:bg-yellow-700 hover:text-white border-yellow-700 text-yellow-700 w-full font-semibold text-base py-2">
-                Thêm vào giỏ
-              </button>
-            </div>
-          </div>
+          ))}
         </div>
       </section>
       {/* End product section */}

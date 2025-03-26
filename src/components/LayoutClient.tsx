@@ -1,15 +1,16 @@
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import Navigate from "./Client/Navigate";
 import Footer from "./Client/Footer";
 import ModalRequireLogin from "./Client/ModalRequireLogin";
+import { useModal } from "../Context/ModalContext";
 
 type LayoutClientProps = {
   children: React.ReactNode;
 };
 
 const LayoutClient = ({ children }: LayoutClientProps) => {
-  const [isOpen, setIsOpen] = useState(false);
+  const { isOpen, setIsOpen } = useModal();
   const navigate = useNavigate();
 
   useEffect(() => {
