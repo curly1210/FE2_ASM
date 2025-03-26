@@ -48,5 +48,25 @@
       "role": "admin",
       "id": 2
     }
+  ],
+  "carts": [
+    {
+      "id": 1,
+      "idUser": 2,
+      "idProduct": 2,
+      "quantity": 2
+    },
+    {
+      "id": 2,
+      "idUser": 1,
+      "idProduct": 2,
+      "quantity": 2
+    },
+    {
+      "id": 3,
+      "idUser": 2,
+      "idProduct": 8,
+      "quantity": 10
+    }
   ]
 }
