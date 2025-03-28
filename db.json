@@ -69,32 +69,21 @@
   ],
   "carts": [
     {
-      "id": 1,
       "idUser": 2,
-      "idProduct": 2,
-      "quantity": 13,
-      "price": 21000
-    },
-    {
-      "id": 2,
-      "idUser": 1,
-      "idProduct": 2,
+      "idProduct": 10,
       "quantity": 2,
-      "price": 21000
-    },
-    {
-      "id": 3,
-      "idUser": 2,
-      "idProduct": 8,
-      "quantity": 3,
-      "price": 12000
+      "price": 50000,
+      "name": "Bàn học",
+      "id": 1
     },
     {
       "idUser": 2,
       "idProduct": 9,
       "quantity": 1,
       "price": 12000,
-      "id": 4
+      "name": "Bàn gỗ",
+      "id": 2
     }
-  ]
+  ],
+  "orders": []
 }

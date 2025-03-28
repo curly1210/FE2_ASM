@@ -1,11 +1,10 @@
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { useState } from "react";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
-const CartItem = ({ cartItem, formatCurrency }: any) => {
+const CartItem = ({ cartItem, formatCurrency, carts, setCarts }: any) => {
   const [quantity, setQuantity] = useState(cartItem.quantity | 0);
-  const queryClient = useQueryClient();
 
   const fetchProductById = async (idProduct: number) => {
     const { data } = await axios.get(
@@ -34,12 +33,20 @@ const CartItem = ({ cartItem, formatCurrency }: any) => {
   const onHandleQuantity = async (newQuantity: any) => {
     if (newQuantity < 1) return;
     setQuantity(newQuantity);
-
+    console.log(newQuantity);
     const data = updateCartItem(cartItem.id, newQuantity);
     if (!data) return;
-    queryClient.invalidateQueries({
-      queryKey: ["carts"],
-    });
+    setCarts(
+      carts.map((item: any) => {
+        if (item.id !== cartItem.id) {
+          return item;
+        }
+        return { ...item, quantity: newQuantity };
+      })
+    );
+    // queryClient.invalidateQueries({
+    //   queryKey: ["carts"],
+    // });
   };
 
   if (isLoading)

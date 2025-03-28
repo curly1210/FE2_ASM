@@ -1,13 +1,16 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useQuery } from "@tanstack/react-query";
 import { useAuthen } from "../../Context/AuthContext";
 import axios from "axios";
 import CartItem from "./CartItem";
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 const CartPage = () => {
   const { user } = useAuthen();
   const [total, setTotal] = useState(0);
+  const [carts, setCarts] = useState([]);
 
   const formatCurrency = (amount: number) => {
     return amount?.toLocaleString("vi-VN", {
@@ -16,12 +19,13 @@ const CartPage = () => {
     });
   };
 
-  const { data: carts } = useQuery({
+  const { data } = useQuery({
     queryKey: ["carts"],
     queryFn: async () => {
       const { data } = await axios.get(
-        `http://localhost:3000/carts?idUser=${user?.user.id}`
+        `http://localhost:3000/carts?idUser=${user?.user?.id}`
       );
+      setCarts(data);
       return data;
     },
   });
@@ -33,8 +37,6 @@ const CartPage = () => {
     );
     setTotal(newTotal);
   }, [carts]);
-
-  // console.log(data);
 
   return (
     <div>
@@ -57,6 +59,8 @@ const CartPage = () => {
               <tbody>
                 {carts?.map((cartItem: any) => (
                   <CartItem
+                    carts={carts}
+                    setCarts={setCarts}
                     key={cartItem.id}
                     cartItem={cartItem}
                     formatCurrency={formatCurrency}
@@ -78,12 +82,12 @@ const CartPage = () => {
                 {formatCurrency(total)}
               </span>
             </p>
-            <a
-              href="#"
+            <Link
+              to={"/checkout"}
               className="border border-solid border-yellow-500 text-yellow-500 inline-block w-full text-center py-2 hover:bg-yellow-600 duration-200 font-semibold hover:text-white"
             >
               Thanh toán
-            </a>
+            </Link>
           </div>
         </div>
       </section>

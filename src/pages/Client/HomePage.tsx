@@ -51,7 +51,13 @@ const HomePage = () => {
         const { data: product } = await axios.get(
           `http://localhost:3000/products/${idProduct}`
         );
-        createCartItem(user?.user.id, idProduct, quantity, product.price);
+        createCartItem(
+          user?.user.id,
+          idProduct,
+          quantity,
+          product.price,
+          product.name
+        );
       }
 
       toast.success("Thêm vào giỏ hàng thành công");
@@ -75,7 +81,8 @@ const HomePage = () => {
     idUser: number,
     idProduct: number,
     quantity: number,
-    price: number
+    price: number,
+    name: string
   ) => {
     try {
       const { data } = await axios.post(`http://localhost:3000/carts`, {
@@ -83,6 +90,7 @@ const HomePage = () => {
         idProduct,
         quantity,
         price,
+        name,
       });
       return data;
     } catch (error) {
