@@ -32,14 +32,6 @@ const HomePage = () => {
     });
   };
 
-  // const { data: carts } = useListCart({
-  //   resource: "carts",
-  //   idUser: user?.user?.id,
-  // });
-
-  // const getCart = () => {};
-  // console.log(carts);
-
   const onAddToCart = async (idProduct: number, quantity = 1) => {
     if (!user) {
       console.log("cuong");

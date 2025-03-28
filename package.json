@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "server": "json-server --watch db.json -m ./node_modules/json-server-auth ",
+    "taild": "npx @tailwindcss/cli -i ./src/index.css -o ./src/output.css --watch",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview"
