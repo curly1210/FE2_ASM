@@ -1,14 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Button, Popconfirm, Skeleton, Table } from "antd";
+import { Skeleton, Table } from "antd";
 import useList from "../../../hooks/useList";
-import useDelete from "../../../hooks/useDelete";
 import { IProduct } from "../../../interface/type";
-// import { IProduct } from "../../interface/type";
 
 const UserListPage = () => {
   const { data, isLoading, error, isError } = useList({ resource: "users" });
-
-  const { mutate } = useDelete({ resource: "users" });
 
   const dataSource = data?.map((product: IProduct) => ({
     key: product.id,
@@ -35,26 +31,6 @@ const UserListPage = () => {
       title: "Số điện thoại",
       dataIndex: "phone",
       key: "phone",
-    },
-    {
-      title: "Hành động",
-      dataIndex: "action",
-      render: (_: any, item: any) => {
-        // console.log(params2);
-        return (
-          <div className="flex space-x-3">
-            <Popconfirm
-              title="Xóa sản phẩm"
-              description="Bạn có chắc muốn xóa người dùng này không?"
-              onConfirm={() => mutate(item.id)}
-              okText="Yes"
-              cancelText="No"
-            >
-              <Button danger>Xóa</Button>
-            </Popconfirm>
-          </div>
-        );
-      },
     },
   ];
 

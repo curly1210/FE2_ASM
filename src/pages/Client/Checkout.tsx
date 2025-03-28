@@ -36,8 +36,9 @@ const Checkout = () => {
       const { data } = await axios.post(`http://localhost:3000/orders`, {
         ...newValue,
         total,
-        statusOrder: "Chờ xác nhận",
-        statusPayment: "Chưa thanh toán",
+        statusOrder: "pending",
+        statusPayment: false,
+        orderDate: new Date(Date.now()).toISOString().split("T")[0],
       });
 
       carts?.map(async (item: any) => {

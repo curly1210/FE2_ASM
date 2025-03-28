@@ -67,23 +67,31 @@
       "id": 2
     }
   ],
-  "carts": [
+  "carts": [],
+  "orders": [
     {
       "idUser": 2,
-      "idProduct": 10,
-      "quantity": 2,
-      "price": 50000,
-      "name": "Bàn học",
+      "email": "cuong@gmail.com",
+      "fullname": "Olivier",
+      "phone": "0766004415",
+      "address": "132 Cầu Giấy",
+      "total": 98000,
+      "statusOrder": "shipped",
+      "statusPayment": true,
+      "orderDate": "2025-03-28",
       "id": 1
     },
     {
       "idUser": 2,
-      "idProduct": 9,
-      "quantity": 1,
-      "price": 12000,
-      "name": "Bàn gỗ",
+      "email": "cuong@gmail.com",
+      "fullname": "Olivier",
+      "phone": "0766004415",
+      "address": "132 Cầu Giấy",
+      "total": 84000,
+      "statusOrder": "pending",
+      "statusPayment": false,
+      "orderDate": "2025-03-28",
       "id": 2
     }
-  ],
-  "orders": []
+  ]
 }
