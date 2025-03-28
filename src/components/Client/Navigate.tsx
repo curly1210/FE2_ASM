@@ -74,12 +74,20 @@ const Navigate = ({ setIsOpen, navigate }: NavigateProps) => {
                   Đăng xuất
                 </button>
               ) : (
-                <button
-                  className="cursor-pointer block w-full px-4 py-2 text-left hover:bg-gray-200"
-                  onClick={() => navigate("/login")}
-                >
-                  Đăng nhập
-                </button>
+                <div>
+                  <button
+                    className="cursor-pointer block w-full px-4 py-2 text-left hover:bg-gray-200"
+                    onClick={() => navigate("/login")}
+                  >
+                    Đăng nhập
+                  </button>
+                  <button
+                    className="cursor-pointer block w-full px-4 py-2 text-left hover:bg-gray-200"
+                    onClick={() => navigate("/register")}
+                  >
+                    Đăng ký
+                  </button>
+                </div>
               )}
             </div>
           </div>

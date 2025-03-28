@@ -8,6 +8,7 @@ import CartPage from "../pages/Client/CartPage";
 import { ModalProvider } from "../Context/ModalContext";
 import Checkout from "../pages/Client/Checkout";
 import OrderSuccess from "../pages/Client/OrderSuccess";
+import Register from "../pages/Client/Register";
 
 const ClientRouter = () => {
   return (
@@ -24,6 +25,7 @@ const ClientRouter = () => {
           <Route index path="/" element={<HomePage />} />
           <Route element={<RedirectIfAuthenticated />}>
             <Route path="login" element={<Login />} />
+            <Route path="register" element={<Register />} />
           </Route>
           <Route element={<RequireAuth />}>
             <Route path="carts" element={<CartPage />} />
