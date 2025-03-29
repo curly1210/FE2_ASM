@@ -1,10 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { useState } from "react";
+import { useAuthen } from "../../Context/AuthContext";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 const CartItem = ({ cartItem, formatCurrency, carts, setCarts }: any) => {
   const [quantity, setQuantity] = useState(cartItem.quantity | 0);
+  const { user } = useAuthen();
 
   const fetchProductById = async (idProduct: number) => {
     const { data } = await axios.get(
@@ -22,7 +24,12 @@ const CartItem = ({ cartItem, formatCurrency, carts, setCarts }: any) => {
     try {
       const { data } = await axios.patch(
         `http://localhost:3000/carts/${idCart}`,
-        { quantity }
+        { quantity },
+        {
+          headers: {
+            Authorization: `Bearer ${user?.accessToken}`, // Thêm token vào header
+          },
+        }
       );
       return data;
     } catch (error) {

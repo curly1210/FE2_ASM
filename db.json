@@ -67,7 +67,21 @@
       "id": 2
     }
   ],
-  "carts": [],
+  "carts": [
+    {
+      "idUser": 2,
+      "items": [
+        {
+          "ProductID": 8,
+          "name": "Ghế trẻ em",
+          "quantity": 4,
+          "price": 12000,
+          "subtotal": 48000
+        }
+      ],
+      "id": 1
+    }
+  ],
   "orders": [
     {
       "idUser": 2,
@@ -92,6 +106,18 @@
       "statusPayment": false,
       "orderDate": "2025-03-28",
       "id": 2
+    },
+    {
+      "idUser": 2,
+      "email": "cuong@gmail.com",
+      "fullname": "Olivier",
+      "phone": "0766004415",
+      "address": "132 Cầu Giấy",
+      "total": 356000,
+      "statusOrder": "shipped",
+      "statusPayment": true,
+      "orderDate": "2025-03-29",
+      "id": 3
     }
   ]
 }

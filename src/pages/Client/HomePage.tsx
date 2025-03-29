@@ -17,10 +17,11 @@ import { useAuthen } from "../../Context/AuthContext";
 import { useModal } from "../../Context/ModalContext";
 import axios from "axios";
 import toast from "react-hot-toast";
-// import useListCart from "../../hooks/useListCart";
+import useCreate from "../../hooks/useCreate";
 
 const HomePage = () => {
   const { data } = useList({ resource: "products" });
+  const { mutate } = useCreate({ resource: "carts" });
 
   const { user } = useAuthen();
   const { setIsOpen } = useModal();
@@ -37,30 +38,80 @@ const HomePage = () => {
       console.log("cuong");
       setIsOpen(true);
     } else {
-      const { data: cartItems } = await axios.get(
+      let { data: cartItems } = await axios.get(
         `http://localhost:3000/carts?idUser=${user?.user.id}`
       );
 
-      const existingItem = cartItems.find(
-        (item: any) => item.idProduct === idProduct
-      );
-
-      if (existingItem) {
-        updateCartItem(existingItem.id, existingItem.quantity + quantity);
-      } else {
+      // console.log(cartItems);
+      if (cartItems.length === 0) {
         const { data: product } = await axios.get(
           `http://localhost:3000/products/${idProduct}`
         );
-        createCartItem(
-          user?.user.id,
-          idProduct,
+        const { id: ProductID, name, price } = product;
+        const filterProduct = {
+          ProductID,
+          name,
           quantity,
-          product.price,
-          product.name
+          price,
+          subtotal: price * quantity,
+        };
+        const values = {
+          idUser: user?.user?.id,
+          items: [filterProduct],
+        };
+        mutate(values);
+        console.log("trống");
+      } else {
+        cartItems = cartItems[0];
+        const existingItem = cartItems.items.find(
+          (item: any) => item.ProductID === idProduct
         );
+
+        if (existingItem) {
+          // console.log(cartItems.id);
+          const updateItem = cartItems.items.map((item: any) =>
+            item.ProductID === idProduct
+              ? {
+                  ...item,
+                  quantity: item.quantity + quantity,
+                  subtotal: (item.quantity + quantity) * item.price,
+                }
+              : item
+          );
+          const value = { ...cartItems, items: updateItem };
+          const { data } = await axios.patch(
+            `http://localhost:3000/carts/${cartItems.id}`,
+            value
+          );
+          console.log("Đã có ");
+        } else {
+          console.log("Chưa có");
+        }
+        // cartItems.map((item: any) => console.log(item));
+        // console.log(cartItems?.items);
+        // const existingItem = cartItems?.items.map((item) => item);
       }
 
-      toast.success("Thêm vào giỏ hàng thành công");
+      // const existingItem = cartItems.find(
+      //   (item: any) => item.idProduct === idProduct
+      // );
+
+      // if (existingItem) {
+      //   updateCartItem(existingItem.id, existingItem.quantity + quantity);
+      // } else {
+      //   const { data: product } = await axios.get(
+      //     `http://localhost:3000/products/${idProduct}`
+      //   );
+      //   createCartItem(
+      //     user?.user.id,
+      //     idProduct,
+      //     quantity,
+      //     product.price,
+      //     product.name
+      //   );
+      // }
+
+      // toast.success("Thêm vào giỏ hàng thành công");
       // const cartItems = useList({ resource: "carts" });
     }
   };
@@ -69,7 +120,12 @@ const HomePage = () => {
     try {
       const { data } = await axios.patch(
         `http://localhost:3000/carts/${idCart}`,
-        { quantity }
+        { quantity },
+        {
+          headers: {
+            Authorization: `Bearer ${user?.accessToken}`, // Thêm token vào header
+          },
+        }
       );
       return data;
     } catch (error) {
