@@ -9,7 +9,7 @@ import { Navigate, replace, useNavigate } from "react-router-dom";
 
 const Checkout = () => {
   const { user } = useAuthen();
-  const [carts, setCarts] = useState([]);
+  const [carts, setCarts] = useState<any>({});
   const [total, setTotal] = useState(0);
 
   const navigate = useNavigate();
@@ -31,34 +31,39 @@ const Checkout = () => {
   const onSubmit = async (values: any) => {
     try {
       const { id: idUser, sex, role, ...filterValue } = values;
+      // console.log(values);
+
       const newValue = { idUser, ...filterValue };
       // console.log(newValue);
+      console.log(carts);
       const { data } = await axios.post(`http://localhost:3000/orders`, {
         ...newValue,
         total,
         statusOrder: "pending",
         statusPayment: false,
         orderDate: new Date(Date.now()).toISOString().split("T")[0],
+        items: carts?.items,
+        totalPrice: carts.totalPrice,
       });
 
-      carts?.map(async (item: any) => {
-        await axios.delete(`http://localhost:3000/carts/${item.id}`);
-      });
+      // carts?.items.map(async (item: any) => {
+      await axios.delete(`http://localhost:3000/carts/${carts?.id}`);
+      // });
 
-      // <Navigate to={"/order-success"} />;
+      // // <Navigate to={"/order-success"} />;
       navigate("/order-success", { replace: true });
     } catch (error) {
       console.log(error);
     }
   };
 
-  const { data } = useQuery({
+  const { data: cartsList, isLoading } = useQuery({
     queryKey: ["carts"],
     queryFn: async () => {
       const { data } = await axios.get(
         `http://localhost:3000/carts?idUser=${user?.user?.id}`
       );
-      setCarts(data);
+      setCarts(data[0]);
       return data;
     },
   });
@@ -69,12 +74,12 @@ const Checkout = () => {
   }, [user?.user, reset]);
 
   useEffect(() => {
-    const newTotal = carts?.reduce(
-      (sum: number, item: any) => sum + item.price * item.quantity,
-      0
-    );
-    setTotal(newTotal);
+    setTotal(carts?.totalPrice);
   }, [carts]);
+
+  if (isLoading) return <div>Loading...</div>;
+
+  if (!cartsList) return <div>Không tìm thấy sản phẩm</div>;
 
   return (
     <div>
@@ -172,8 +177,8 @@ const Checkout = () => {
               <span>Sản phẩm</span>
               <span>Tạm tính</span>
             </p>
-            {carts?.map((item: any) => (
-              <div key={item.id} className="flex justify-between mt-4">
+            {carts?.items?.map((item: any) => (
+              <div key={item.ProductID} className="flex justify-between mt-4">
                 <p>
                   <span className="text-neutral-500 ">{item.name} </span>
                   <span className="font-medium">x{item.quantity}</span>

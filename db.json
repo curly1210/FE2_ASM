@@ -65,34 +65,46 @@
       "phone": "0766004415",
       "role": "admin",
       "id": 2
-    }
-  ],
-  "carts": [
+    },
     {
-      "idUser": 2,
-      "items": [
-        {
-          "ProductID": 8,
-          "name": "Ghế trẻ em",
-          "quantity": 4,
-          "price": 12000,
-          "subtotal": 48000
-        }
-      ],
-      "id": 1
+      "email": "cuongpxph48448@gmail.com",
+      "password": "$2a$10$7bPsthJoUnLMR9R8DPkdd.7RenKUhAV2OX7au3KEY.4UwB2mye11q",
+      "fullname": "cuong Pham",
+      "confirmPassword": "lamduoc1210",
+      "phone": "0898645513",
+      "sex": "nam",
+      "id": 3
     }
   ],
+  "carts": [],
   "orders": [
     {
       "idUser": 2,
       "email": "cuong@gmail.com",
       "fullname": "Olivier",
       "phone": "0766004415",
-      "address": "132 Cầu Giấy",
-      "total": 98000,
-      "statusOrder": "shipped",
-      "statusPayment": true,
-      "orderDate": "2025-03-28",
+      "address": "Thanh Hóa",
+      "total": 132000,
+      "statusOrder": "pending",
+      "statusPayment": false,
+      "orderDate": "2025-04-02",
+      "items": [
+        {
+          "ProductID": 8,
+          "name": "Ghế trẻ em",
+          "quantity": 8,
+          "price": 12000,
+          "subtotal": 96000
+        },
+        {
+          "ProductID": 9,
+          "name": "Bàn gỗ",
+          "quantity": 3,
+          "price": 12000,
+          "subtotal": 36000
+        }
+      ],
+      "totalPrice": 132000,
       "id": 1
     },
     {
@@ -100,24 +112,29 @@
       "email": "cuong@gmail.com",
       "fullname": "Olivier",
       "phone": "0766004415",
-      "address": "132 Cầu Giấy",
-      "total": 84000,
+      "address": "Hà Nội",
+      "total": 57000,
       "statusOrder": "pending",
       "statusPayment": false,
-      "orderDate": "2025-03-28",
+      "orderDate": "2025-04-02",
+      "items": [
+        {
+          "ProductID": 8,
+          "name": "Ghế trẻ em",
+          "quantity": 3,
+          "price": 12000,
+          "subtotal": 36000
+        },
+        {
+          "ProductID": 2,
+          "name": "Ghế gỗ",
+          "quantity": 1,
+          "price": 21000,
+          "subtotal": 21000
+        }
+      ],
+      "totalPrice": 57000,
       "id": 2
-    },
-    {
-      "idUser": 2,
-      "email": "cuong@gmail.com",
-      "fullname": "Olivier",
-      "phone": "0766004415",
-      "address": "132 Cầu Giấy",
-      "total": 356000,
-      "statusOrder": "shipped",
-      "statusPayment": true,
-      "orderDate": "2025-03-29",
-      "id": 3
     }
   ]
 }

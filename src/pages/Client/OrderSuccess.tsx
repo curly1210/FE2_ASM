@@ -10,7 +10,7 @@ const OrderSuccess = () => {
           alt=""
           width={200}
         />
-        <Link to={""}>
+        <Link to={"/"}>
           <button className="bg-yellow-600 text-white py-2 px-5 rounded-3xl font-semibold">
             Tiếp tục mua sắm
           </button>

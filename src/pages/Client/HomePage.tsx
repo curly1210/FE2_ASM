@@ -10,7 +10,6 @@ import award from "../../assets/award.png";
 import ship from "../../assets/ship.png";
 import check from "../../assets/check.png";
 import banner from "../../assets/banner.jpg";
-// import product from "../../assets/product_1.jpg";
 import { Link } from "react-router-dom";
 import useList from "../../hooks/useList";
 import { useAuthen } from "../../Context/AuthContext";
@@ -35,7 +34,6 @@ const HomePage = () => {
 
   const onAddToCart = async (idProduct: number, quantity = 1) => {
     if (!user) {
-      console.log("cuong");
       setIsOpen(true);
     } else {
       let { data: cartItems } = await axios.get(
@@ -58,6 +56,8 @@ const HomePage = () => {
         const values = {
           idUser: user?.user?.id,
           items: [filterProduct],
+          totalItem: 1,
+          totalPrice: price * quantity,
         };
         mutate(values);
         console.log("trống");
@@ -68,7 +68,6 @@ const HomePage = () => {
         );
 
         if (existingItem) {
-          // console.log(cartItems.id);
           const updateItem = cartItems.items.map((item: any) =>
             item.ProductID === idProduct
               ? {
@@ -78,79 +77,50 @@ const HomePage = () => {
                 }
               : item
           );
-          const value = { ...cartItems, items: updateItem };
+          const totalPrice = updateItem?.reduce(
+            (acc: any, item: any) => acc + item.subtotal,
+            0
+          );
+          const value = { ...cartItems, items: updateItem, totalPrice };
           const { data } = await axios.patch(
             `http://localhost:3000/carts/${cartItems.id}`,
             value
           );
           console.log("Đã có ");
         } else {
+          const { data: product } = await axios.get(
+            `http://localhost:3000/products/${idProduct}`
+          );
+          const { id: ProductID, name, price } = product;
+          const filterProduct = {
+            ProductID,
+            name,
+            quantity,
+            price,
+            subtotal: price * quantity,
+          };
+          const updateItem = [...cartItems.items, filterProduct];
+          const totalPrice = updateItem?.reduce(
+            (acc: any, item: any) => acc + item.subtotal,
+            0
+          );
+          const value = {
+            ...cartItems,
+            items: updateItem,
+            totalPrice,
+            totalItem: cartItems.totalItem + 1,
+          };
+          // console.log(updateItem);
+          const { data } = await axios.patch(
+            `http://localhost:3000/carts/${cartItems.id}`,
+            value
+          );
+
           console.log("Chưa có");
         }
-        // cartItems.map((item: any) => console.log(item));
-        // console.log(cartItems?.items);
-        // const existingItem = cartItems?.items.map((item) => item);
       }
 
-      // const existingItem = cartItems.find(
-      //   (item: any) => item.idProduct === idProduct
-      // );
-
-      // if (existingItem) {
-      //   updateCartItem(existingItem.id, existingItem.quantity + quantity);
-      // } else {
-      //   const { data: product } = await axios.get(
-      //     `http://localhost:3000/products/${idProduct}`
-      //   );
-      //   createCartItem(
-      //     user?.user.id,
-      //     idProduct,
-      //     quantity,
-      //     product.price,
-      //     product.name
-      //   );
-      // }
-
-      // toast.success("Thêm vào giỏ hàng thành công");
-      // const cartItems = useList({ resource: "carts" });
-    }
-  };
-
-  const updateCartItem = async (idCart: number, quantity: number) => {
-    try {
-      const { data } = await axios.patch(
-        `http://localhost:3000/carts/${idCart}`,
-        { quantity },
-        {
-          headers: {
-            Authorization: `Bearer ${user?.accessToken}`, // Thêm token vào header
-          },
-        }
-      );
-      return data;
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const createCartItem = async (
-    idUser: number,
-    idProduct: number,
-    quantity: number,
-    price: number,
-    name: string
-  ) => {
-    try {
-      const { data } = await axios.post(`http://localhost:3000/carts`, {
-        idUser,
-        idProduct,
-        quantity,
-        price,
-        name,
-      });
-      return data;
-    } catch (error) {
-      console.log(error);
+      toast.success("Thêm vào giỏ hàng thành công ");
     }
   };
 
@@ -178,14 +148,23 @@ const HomePage = () => {
           {data?.map((product: any) => (
             <div key={product.id}>
               <div className="overflow-hidden">
-                <img
-                  src={product.image}
-                  alt=""
-                  className="hover:scale-125 w-full h-72  duration-300"
-                />
+                <Link to={`/detail-product/${product.id}`}>
+                  <img
+                    src={product.image}
+                    alt=""
+                    className="hover:scale-125 w-full h-72  duration-300"
+                  />
+                </Link>
               </div>
               <div className="bg-[#F5F5F5]  p-4">
-                <h3 className="font-semibold text-xl mb-1">{product.name}</h3>
+                <Link
+                  to={`/detail-product/${product.id}`}
+                  className="w-fit inline-block"
+                >
+                  <h3 className="font-semibold text-xl mb-1 w-fit">
+                    {product.name}
+                  </h3>
+                </Link>
                 {/* <p className="text-[#898989] text-base mb-2">
                   Stylish cafe chair
                 </p> */}

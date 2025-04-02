@@ -16,21 +16,30 @@ const CartItem = ({ cartItem, formatCurrency, carts, setCarts }: any) => {
   };
 
   const { data: product, isLoading } = useQuery({
-    queryKey: ["product", cartItem.idProduct],
-    queryFn: () => fetchProductById(cartItem.idProduct),
+    queryKey: ["product", cartItem.ProductID],
+    queryFn: () => fetchProductById(cartItem.ProductID),
   });
 
-  const updateCartItem = async (idCart: number, quantity: number) => {
+  const updateCartItem = async (quantity: number) => {
     try {
-      const { data } = await axios.patch(
-        `http://localhost:3000/carts/${idCart}`,
-        { quantity },
-        {
-          headers: {
-            Authorization: `Bearer ${user?.accessToken}`, // Thêm token vào header
-          },
-        }
+      const updateItem = carts?.items?.map((item: any) =>
+        item.ProductID === cartItem.ProductID
+          ? { ...item, quantity, subtotal: quantity * item.price }
+          : item
       );
+
+      const totalPrice = updateItem?.reduce(
+        (acc: any, item: any) => acc + item.subtotal,
+        0
+      );
+
+      const value = { ...carts, totalPrice, items: updateItem };
+
+      const { data } = await axios.patch(
+        `http://localhost:3000/carts/${carts.id}`,
+        value
+      );
+
       return data;
     } catch (error) {
       console.log(error);
@@ -40,20 +49,9 @@ const CartItem = ({ cartItem, formatCurrency, carts, setCarts }: any) => {
   const onHandleQuantity = async (newQuantity: any) => {
     if (newQuantity < 1) return;
     setQuantity(newQuantity);
-    console.log(newQuantity);
-    const data = updateCartItem(cartItem.id, newQuantity);
+    const data = await updateCartItem(newQuantity);
     if (!data) return;
-    setCarts(
-      carts.map((item: any) => {
-        if (item.id !== cartItem.id) {
-          return item;
-        }
-        return { ...item, quantity: newQuantity };
-      })
-    );
-    // queryClient.invalidateQueries({
-    //   queryKey: ["carts"],
-    // });
+    setCarts(data);
   };
 
   if (isLoading)

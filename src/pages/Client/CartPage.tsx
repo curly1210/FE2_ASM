@@ -10,7 +10,7 @@ import { Link } from "react-router-dom";
 const CartPage = () => {
   const { user } = useAuthen();
   const [total, setTotal] = useState(0);
-  const [carts, setCarts] = useState([]);
+  const [carts, setCarts] = useState<any>({});
 
   const formatCurrency = (amount: number) => {
     return amount?.toLocaleString("vi-VN", {
@@ -19,24 +19,30 @@ const CartPage = () => {
     });
   };
 
-  const { data } = useQuery({
+  const {
+    data: cartList,
+    isLoading,
+    isError,
+  } = useQuery({
     queryKey: ["carts"],
     queryFn: async () => {
       const { data } = await axios.get(
         `http://localhost:3000/carts?idUser=${user?.user?.id}`
       );
-      setCarts(data);
+      setCarts(data[0]);
       return data;
     },
   });
 
   useEffect(() => {
-    const newTotal = carts?.reduce(
-      (sum: number, item: any) => sum + item.price * item.quantity,
-      0
-    );
-    setTotal(newTotal);
+    setTotal(carts?.totalPrice);
   }, [carts]);
+
+  if (isLoading) return <div>Loading...</div>;
+
+  if (!cartList) return <div>Không tìm thấy sản phẩm</div>;
+
+  // console.log(carts);
 
   return (
     <div>
@@ -57,15 +63,18 @@ const CartPage = () => {
                 </tr>
               </thead>
               <tbody>
-                {carts?.map((cartItem: any) => (
-                  <CartItem
-                    carts={carts}
-                    setCarts={setCarts}
-                    key={cartItem.id}
-                    cartItem={cartItem}
-                    formatCurrency={formatCurrency}
-                  />
-                ))}
+                {carts?.items?.map((cartItem: any) => {
+                  // console.log(cartItem);
+                  return (
+                    <CartItem
+                      carts={carts}
+                      setCarts={setCarts}
+                      key={cartItem.ProductID}
+                      cartItem={cartItem}
+                      formatCurrency={formatCurrency}
+                    />
+                  );
+                })}
               </tbody>
             </table>
           </div>
