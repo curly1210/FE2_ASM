@@ -6,11 +6,14 @@ import { useAuthen } from "../../Context/AuthContext";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { Navigate, replace, useNavigate } from "react-router-dom";
+import { useCart } from "../../Context/CartContext";
 
 const Checkout = () => {
   const { user } = useAuthen();
   const [carts, setCarts] = useState<any>({});
   const [total, setTotal] = useState(0);
+
+  const { setQuantityItem } = useCart();
 
   const navigate = useNavigate();
 
@@ -48,6 +51,7 @@ const Checkout = () => {
 
       // carts?.items.map(async (item: any) => {
       await axios.delete(`http://localhost:3000/carts/${carts?.id}`);
+      setQuantityItem(0);
       // });
 
       // // <Navigate to={"/order-success"} />;

@@ -60,12 +60,13 @@ export const CartProvider = ({ children }: CartProviderProps) => {
         const { data: product } = await axios.get(
           `http://localhost:3000/products/${idProduct}`
         );
-        const { id: ProductID, name, price } = product;
+        const { id: ProductID, name, price, image } = product;
         const filterProduct = {
           ProductID,
           name,
           quantity,
           price,
+          image,
           subtotal: price * quantity,
         };
         const values = {
@@ -109,12 +110,13 @@ export const CartProvider = ({ children }: CartProviderProps) => {
           const { data: product } = await axios.get(
             `http://localhost:3000/products/${idProduct}`
           );
-          const { id: ProductID, name, price } = product;
+          const { id: ProductID, name, price, image } = product;
           const filterProduct = {
             ProductID,
             name,
             quantity,
             price,
+            image,
             subtotal: price * quantity,
           };
           const updateItem = [...cartItems.items, filterProduct];

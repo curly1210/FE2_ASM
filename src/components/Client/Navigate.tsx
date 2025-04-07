@@ -98,12 +98,20 @@ const Navigate = ({ setIsOpen, navigate }: NavigateProps) => {
         translate-y-2 transition-all duration-300 group-hover:opacity-100 group-hover:visible group-hover:translate-y-0 overflow-hidden"
             >
               {user ? (
-                <button
-                  className="cursor-pointer block w-full px-4 py-2 text-left hover:bg-gray-200"
-                  onClick={handleLogout}
-                >
-                  Đăng xuất
-                </button>
+                <div>
+                  <button
+                    className="cursor-pointer block w-full px-4 py-2 text-left hover:bg-gray-200"
+                    onClick={handleLogout}
+                  >
+                    Đăng xuất
+                  </button>
+                  <button
+                    className="cursor-pointer block w-full px-4 py-2 text-left hover:bg-gray-200"
+                    onClick={() => navigate("/orders")}
+                  >
+                    Đơn mua
+                  </button>
+                </div>
               ) : (
                 <div>
                   <button

@@ -11,6 +11,7 @@ import OrderSuccess from "../pages/Client/OrderSuccess";
 import Register from "../pages/Client/Register";
 import DetailPage from "../pages/Client/DetailPage";
 import { CartProvider } from "../Context/CartContext";
+import OrderPage from "../pages/Client/OrderPage";
 
 const ClientRouter = () => {
   return (
@@ -33,6 +34,7 @@ const ClientRouter = () => {
               <Route path="carts" element={<CartPage />} />
               <Route path="checkout" element={<Checkout />} />
               <Route path="order-success" element={<OrderSuccess />} />
+              <Route path="orders" element={<OrderPage />} />
             </Route>
             <Route path="detail-product/:id" element={<DetailPage />} />
           </Route>
