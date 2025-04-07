@@ -5,6 +5,7 @@ import useList from "../../../hooks/useList";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import SelectionStatusOrder from "./selectionStatusOrder";
 
 const ListOrder = () => {
   const { data, isLoading, error, isError } = useList({ resource: "orders" });
@@ -24,23 +25,6 @@ const ListOrder = () => {
     },
   });
 
-  const { Option } = Select;
-
-  const onHandleChangeOrderStatus = async (
-    idOrder: number,
-    newStatus: string
-  ) => {
-    try {
-      await axios.patch(`http://localhost:3000/orders/${idOrder}`, {
-        statusOrder: newStatus,
-      });
-      toast.success("Cập nhật thành công");
-    } catch (error) {
-      console.log(error);
-      toast.error("Cập nhật thất bại");
-    }
-  };
-
   if (isLoading) return <Skeleton active />;
   if (isError) return <div>Error: {error.message}</div>;
   if (!data) return <div>Không có đơn hàng nào</div>;
@@ -51,6 +35,11 @@ const ListOrder = () => {
   }));
 
   const columns = [
+    {
+      title: "Mã đơn hàng",
+      dataIndex: "id",
+      key: "id",
+    },
     {
       title: "Họ tên",
       dataIndex: "fullname",
@@ -66,22 +55,7 @@ const ListOrder = () => {
       dataIndex: "statusOrder",
       key: "statusOrder",
       render: (statusOrder: any, order: any) => {
-        return (
-          <Select
-            style={{ width: 200 }}
-            placeholder="Chọn trạng thái"
-            onChange={(newStatus) =>
-              onHandleChangeOrderStatus(order.id, newStatus)
-            }
-            defaultValue={statusOrder}
-          >
-            <Option value="pending">Chờ xác nhận</Option>
-            <Option value="cancelled">Đã hủy</Option>
-            <Option value="processing">Đang xử lý</Option>
-            <Option value="shipped">Đang giao hàng</Option>
-            <Option value="delivered">Đã giao hàng</Option>
-          </Select>
-        );
+        return <SelectionStatusOrder statusOrder={statusOrder} order={order} />;
       },
     },
     {
