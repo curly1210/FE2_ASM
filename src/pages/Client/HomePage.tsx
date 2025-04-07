@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import galery_1 from "../../assets/gallery_1.jpg";
 import galery_2 from "../../assets/gallery_2.png";
@@ -12,117 +13,12 @@ import check from "../../assets/check.png";
 import banner from "../../assets/banner.jpg";
 import { Link } from "react-router-dom";
 import useList from "../../hooks/useList";
-import { useAuthen } from "../../Context/AuthContext";
-import { useModal } from "../../Context/ModalContext";
-import axios from "axios";
-import toast from "react-hot-toast";
-import useCreate from "../../hooks/useCreate";
+import { useCart } from "../../Context/CartContext";
 
 const HomePage = () => {
   const { data } = useList({ resource: "products" });
-  const { mutate } = useCreate({ resource: "carts" });
 
-  const { user } = useAuthen();
-  const { setIsOpen } = useModal();
-
-  const formatCurrency = (amount: number) => {
-    return amount?.toLocaleString("vi-VN", {
-      style: "currency",
-      currency: "VND",
-    });
-  };
-
-  const onAddToCart = async (idProduct: number, quantity = 1) => {
-    if (!user) {
-      setIsOpen(true);
-    } else {
-      let { data: cartItems } = await axios.get(
-        `http://localhost:3000/carts?idUser=${user?.user.id}`
-      );
-
-      // console.log(cartItems);
-      if (cartItems.length === 0) {
-        const { data: product } = await axios.get(
-          `http://localhost:3000/products/${idProduct}`
-        );
-        const { id: ProductID, name, price } = product;
-        const filterProduct = {
-          ProductID,
-          name,
-          quantity,
-          price,
-          subtotal: price * quantity,
-        };
-        const values = {
-          idUser: user?.user?.id,
-          items: [filterProduct],
-          totalItem: 1,
-          totalPrice: price * quantity,
-        };
-        mutate(values);
-        console.log("trống");
-      } else {
-        cartItems = cartItems[0];
-        const existingItem = cartItems.items.find(
-          (item: any) => item.ProductID === idProduct
-        );
-
-        if (existingItem) {
-          const updateItem = cartItems.items.map((item: any) =>
-            item.ProductID === idProduct
-              ? {
-                  ...item,
-                  quantity: item.quantity + quantity,
-                  subtotal: (item.quantity + quantity) * item.price,
-                }
-              : item
-          );
-          const totalPrice = updateItem?.reduce(
-            (acc: any, item: any) => acc + item.subtotal,
-            0
-          );
-          const value = { ...cartItems, items: updateItem, totalPrice };
-          const { data } = await axios.patch(
-            `http://localhost:3000/carts/${cartItems.id}`,
-            value
-          );
-          console.log("Đã có ");
-        } else {
-          const { data: product } = await axios.get(
-            `http://localhost:3000/products/${idProduct}`
-          );
-          const { id: ProductID, name, price } = product;
-          const filterProduct = {
-            ProductID,
-            name,
-            quantity,
-            price,
-            subtotal: price * quantity,
-          };
-          const updateItem = [...cartItems.items, filterProduct];
-          const totalPrice = updateItem?.reduce(
-            (acc: any, item: any) => acc + item.subtotal,
-            0
-          );
-          const value = {
-            ...cartItems,
-            items: updateItem,
-            totalPrice,
-            totalItem: cartItems.totalItem + 1,
-          };
-          // console.log(updateItem);
-          const { data } = await axios.patch(
-            `http://localhost:3000/carts/${cartItems.id}`,
-            value
-          );
-
-          console.log("Chưa có");
-        }
-      }
-
-      toast.success("Thêm vào giỏ hàng thành công ");
-    }
-  };
+  const { onAddToCart, formatCurrency } = useCart();
 
   return (
     <div>
@@ -172,7 +68,7 @@ const HomePage = () => {
                   {formatCurrency(product.price)}
                 </p>
                 <button
-                  onClick={() => onAddToCart(product.id)}
+                  onClick={() => onAddToCart(Number(product.id), 1)}
                   className="border border-solid duration-300 cursor-pointer hover:bg-yellow-700 hover:text-white border-yellow-700 text-yellow-700 w-full font-semibold text-base py-2"
                 >
                   Thêm vào giỏ

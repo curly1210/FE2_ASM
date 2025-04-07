@@ -1,12 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { useState } from "react";
-import { useAuthen } from "../../Context/AuthContext";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 const CartItem = ({ cartItem, formatCurrency, carts, setCarts }: any) => {
   const [quantity, setQuantity] = useState(cartItem.quantity | 0);
-  const { user } = useAuthen();
 
   const fetchProductById = async (idProduct: number) => {
     const { data } = await axios.get(

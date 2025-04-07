@@ -76,7 +76,30 @@
       "id": 3
     }
   ],
-  "carts": [],
+  "carts": [
+    {
+      "idUser": 2,
+      "items": [
+        {
+          "ProductID": 9,
+          "name": "Bàn gỗ",
+          "quantity": 3,
+          "price": 12000,
+          "subtotal": 36000
+        },
+        {
+          "ProductID": 8,
+          "name": "Ghế trẻ em",
+          "quantity": 1,
+          "price": 12000,
+          "subtotal": 12000
+        }
+      ],
+      "totalItem": 2,
+      "totalPrice": 48000,
+      "id": 1
+    }
+  ],
   "orders": [
     {
       "idUser": 2,
