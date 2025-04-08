@@ -19,7 +19,7 @@ const ListOrder = () => {
       });
       return data;
     },
-    onSuccess: (_: any, { id }) => {
+    onSuccess: (_: any) => {
       toast.success("Cập nhật thành công");
       queryClient.invalidateQueries({ queryKey: ["orders"] });
     },

@@ -11,7 +11,7 @@ const OrderPage = () => {
   const { user } = useAuthen();
   const [orders, setOrders] = useState<any[]>([]);
 
-  const { data, isLoading } = useQuery({
+  const { isLoading } = useQuery({
     queryKey: ["orders"],
     queryFn: async () => {
       const { data } = await config.get(`/orders?idUser=${user?.user?.id}`);

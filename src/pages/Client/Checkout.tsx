@@ -39,7 +39,7 @@ const Checkout = () => {
       const newValue = { idUser, ...filterValue };
       // console.log(newValue);
       console.log(carts);
-      const { data } = await config.post(`/orders`, {
+      await config.post(`/orders`, {
         ...newValue,
         total,
         statusOrder: "pending",
