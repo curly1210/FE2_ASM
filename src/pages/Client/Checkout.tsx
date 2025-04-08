@@ -4,9 +4,9 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useAuthen } from "../../Context/AuthContext";
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
-import { Navigate, replace, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useCart } from "../../Context/CartContext";
+import { config } from "../../api/axios";
 
 const Checkout = () => {
   const { user } = useAuthen();
@@ -39,7 +39,7 @@ const Checkout = () => {
       const newValue = { idUser, ...filterValue };
       // console.log(newValue);
       console.log(carts);
-      const { data } = await axios.post(`http://localhost:3000/orders`, {
+      const { data } = await config.post(`/orders`, {
         ...newValue,
         total,
         statusOrder: "pending",
@@ -50,11 +50,9 @@ const Checkout = () => {
       });
 
       // carts?.items.map(async (item: any) => {
-      await axios.delete(`http://localhost:3000/carts/${carts?.id}`);
+      await config.delete(`/carts/${carts?.id}`);
       setQuantityItem(0);
-      // });
 
-      // // <Navigate to={"/order-success"} />;
       navigate("/order-success", { replace: true });
     } catch (error) {
       console.log(error);
@@ -64,9 +62,7 @@ const Checkout = () => {
   const { data: cartsList, isLoading } = useQuery({
     queryKey: ["carts"],
     queryFn: async () => {
-      const { data } = await axios.get(
-        `http://localhost:3000/carts?idUser=${user?.user?.id}`
-      );
+      const { data } = await config.get(`/carts?idUser=${user?.user?.id}`);
       setCarts(data[0]);
       return data;
     },

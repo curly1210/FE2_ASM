@@ -2,10 +2,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useQuery } from "@tanstack/react-query";
 import { useAuthen } from "../../Context/AuthContext";
-import axios from "axios";
 import ButtonCancelOrder from "./buttonCancelOrder";
 import { useState } from "react";
 import ButtonConfirmOrderSuccessed from "./ButtonConfirmOrderSuccessed";
+import { config } from "../../api/axios";
 
 const OrderPage = () => {
   const { user } = useAuthen();
@@ -14,9 +14,7 @@ const OrderPage = () => {
   const { data, isLoading } = useQuery({
     queryKey: ["orders"],
     queryFn: async () => {
-      const { data } = await axios.get(
-        `http://localhost:3000/orders?idUser=${user?.user?.id}`
-      );
+      const { data } = await config.get(`/orders?idUser=${user?.user?.id}`);
       setOrders(data);
       return data;
     },

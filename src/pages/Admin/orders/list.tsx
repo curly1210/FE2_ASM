@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Button, Select, Skeleton, Switch, Table } from "antd";
+import { Button, Skeleton, Switch, Table } from "antd";
 import useList from "../../../hooks/useList";
-import axios from "axios";
 import toast from "react-hot-toast";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import SelectionStatusOrder from "./selectionStatusOrder";
+import { config } from "../../../api/axios";
 
 const ListOrder = () => {
   const { data, isLoading, error, isError } = useList({ resource: "orders" });
@@ -14,7 +14,7 @@ const ListOrder = () => {
 
   const { mutate } = useMutation({
     mutationFn: async ({ id }: { id: number }) => {
-      const { data } = await axios.patch(`http://localhost:3000/orders/${id}`, {
+      const { data } = await config.patch(`/orders/${id}`, {
         statusPayment: true,
       });
       return data;

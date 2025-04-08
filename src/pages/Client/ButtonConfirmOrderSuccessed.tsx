@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import axios from "axios";
 import toast from "react-hot-toast";
+import { config } from "../../api/axios";
 
 const ButtonConfirmOrderSuccessed = ({
   order,
@@ -9,7 +9,7 @@ const ButtonConfirmOrderSuccessed = ({
   const onCancelOrder = async () => {
     try {
       if (confirm("Xác nhận nhận hàng thành công")) {
-        axios.patch(`http://localhost:3000/orders/${order.id}`, {
+        config.patch(`/orders/${order.id}`, {
           statusOrder: "successed",
         });
         handleUpdateOrderStatus(order.id, "successed");

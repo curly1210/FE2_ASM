@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import axios from "axios";
 import { IProduct } from "../interface/type";
+import { config } from "../api/axios";
 
-const API_URL = "http://localhost:3000";
+// const API_URL = "http://localhost:3000";
 // const API_URL = "https://api.fake-rest.refine.dev";
 
 type getListParams = {
@@ -30,15 +30,10 @@ type deleteParams = {
   id: number;
 };
 
-// type getListCartParams = {
-//   resource: string;
-//   idUser: number | undefined;
-// };
-
 const dataProvider = {
   getList: async ({ resource }: getListParams) => {
     try {
-      const response = await axios.get(`${API_URL}/${resource}`);
+      const response = await config.get(`/${resource}`);
       if (response.status !== 200) new Error("Error");
 
       return response.data;
@@ -48,7 +43,7 @@ const dataProvider = {
   },
   getOne: async ({ resource, id }: getOneParams) => {
     try {
-      const response = await axios.get(`${API_URL}/${resource}/${id}`);
+      const response = await config.get(`/${resource}/${id}`);
       if (response.status !== 200) new Error("Error");
 
       return response.data;
@@ -58,7 +53,7 @@ const dataProvider = {
   },
   create: async ({ resource, variables }: createParams) => {
     try {
-      const response = await axios.post(`${API_URL}/${resource}`, variables);
+      const response = await config.post(`/${resource}`, variables);
       if (response.status !== 201) new Error("Error");
 
       return {
@@ -71,10 +66,7 @@ const dataProvider = {
   },
   update: async ({ resource, variables, id }: updateParams) => {
     try {
-      const response = await axios.put(
-        `${API_URL}/${resource}/${id}`,
-        variables
-      );
+      const response = await config.put(`/${resource}/${id}`, variables);
       if (response.status !== 200) new Error("Error");
 
       return {
@@ -87,7 +79,7 @@ const dataProvider = {
   },
   remove: async ({ resource, id }: deleteParams) => {
     try {
-      const response = await axios.delete(`${API_URL}/${resource}/${id}`);
+      const response = await config.delete(`/${resource}/${id}`);
       if (response.status !== 200) new Error("Error");
 
       return {
@@ -98,18 +90,6 @@ const dataProvider = {
       throw new Error(error);
     }
   },
-  // getListCart: async ({ resource, idUser }: getListCartParams) => {
-  //   try {
-  //     const response = await axios.get(
-  //       `${API_URL}/${resource}?idUser=${idUser}`
-  //     );
-  //     if (response.status !== 200) new Error("Error");
-
-  //     return response.data;
-  //   } catch (error: any) {
-  //     throw new Error(error);
-  //   }
-  // },
 };
 
 export const { getList, getOne, create, update, remove } = dataProvider;

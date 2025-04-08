@@ -1,15 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
 import { useState } from "react";
+import { config } from "../../api/axios";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 const CartItem = ({ cartItem, formatCurrency, carts, setCarts }: any) => {
   const [quantity, setQuantity] = useState(cartItem.quantity | 0);
 
   const fetchProductById = async (idProduct: number) => {
-    const { data } = await axios.get(
-      `http://localhost:3000/products/${idProduct}`
-    );
+    const { data } = await config.get(`/products/${idProduct}`);
     return data;
   };
 
@@ -33,10 +31,7 @@ const CartItem = ({ cartItem, formatCurrency, carts, setCarts }: any) => {
 
       const value = { ...carts, totalPrice, items: updateItem };
 
-      const { data } = await axios.patch(
-        `http://localhost:3000/carts/${carts.id}`,
-        value
-      );
+      const { data } = await config.patch(`/carts/${carts.id}`, value);
 
       return data;
     } catch (error) {

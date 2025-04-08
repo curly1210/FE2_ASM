@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Select } from "antd";
-import axios from "axios";
 import { useState } from "react";
 import toast from "react-hot-toast";
+import { config } from "../../../api/axios";
 
 const SelectionStatusOrder = ({ statusOrder, order }: any) => {
   const { Option } = Select;
@@ -33,7 +33,7 @@ const SelectionStatusOrder = ({ statusOrder, order }: any) => {
     newStatus: string
   ) => {
     try {
-      await axios.patch(`http://localhost:3000/orders/${idOrder}`, {
+      await config.patch(`/orders/${idOrder}`, {
         statusOrder: newStatus,
       });
       setCurrentStatus(newStatus);

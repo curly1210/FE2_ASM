@@ -2,10 +2,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useQuery } from "@tanstack/react-query";
 import { useAuthen } from "../../Context/AuthContext";
-import axios from "axios";
 import CartItem from "./CartItem";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { config } from "../../api/axios";
 
 const CartPage = () => {
   const { user } = useAuthen();
@@ -19,16 +19,10 @@ const CartPage = () => {
     });
   };
 
-  const {
-    data: cartList,
-    isLoading,
-    isError,
-  } = useQuery({
+  const { data: cartList, isLoading } = useQuery({
     queryKey: ["carts"],
     queryFn: async () => {
-      const { data } = await axios.get(
-        `http://localhost:3000/carts?idUser=${user?.user?.id}`
-      );
+      const { data } = await config.get(`/carts?idUser=${user?.user?.id}`);
       setCarts(data[0]);
       return data;
     },

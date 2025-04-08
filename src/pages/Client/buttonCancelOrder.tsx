@@ -1,12 +1,12 @@
-import axios from "axios";
 import toast from "react-hot-toast";
+import { config } from "../../api/axios";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 const ButtonCancelOrder = ({ order, handleUpdateOrderStatus }: any) => {
   const onCancelOrder = async () => {
     try {
       if (confirm("Bạn có muốn hủy đơn hàng không?")) {
-        axios.patch(`http://localhost:3000/orders/${order.id}`, {
+        config.patch(`/orders/${order.id}`, {
           statusOrder: "cancelled",
         });
         handleUpdateOrderStatus(order.id, "cancelled");
