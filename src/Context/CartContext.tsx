@@ -19,7 +19,7 @@ type CartContextType = {
 };
 
 const CartContext = createContext<CartContextType>({
-  onAddToCart: (idProduct: number, quantity: number) => {},
+  onAddToCart: (_idProduct: number, _quantity: number) => {},
   formatCurrency: (amount: number) => amount.toLocaleString(),
   quantityItem: 0,
   setQuantityItem: () => {},
@@ -101,7 +101,7 @@ export const CartProvider = ({ children }: CartProviderProps) => {
             0
           );
           const value = { ...cartItems, items: updateItem, totalPrice };
-          const { data } = await axios.patch(
+          await axios.patch(
             `http://localhost:3000/carts/${cartItems.id}`,
             value
           );
@@ -131,7 +131,7 @@ export const CartProvider = ({ children }: CartProviderProps) => {
             totalItem: cartItems.totalItem + 1,
           };
           // console.log(updateItem);
-          const { data } = await axios.patch(
+          await axios.patch(
             `http://localhost:3000/carts/${cartItems.id}`,
             value
           );
