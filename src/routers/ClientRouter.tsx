@@ -1,16 +1,14 @@
-import { Outlet, Route, Routes } from "react-router-dom";
+import { Outlet, Route } from "react-router-dom";
 import LayoutClient from "../components/LayoutClient";
 import HomePage from "../pages/Client/HomePage";
 import RedirectIfAuthenticated from "../components/RedirectIfAuthenticated";
 import Login from "../pages/Client/Login";
 import RequireAuth from "../components/RequireAuth";
 import CartPage from "../pages/Client/CartPage";
-import { ModalProvider } from "../Context/ModalContext";
 import Checkout from "../pages/Client/Checkout";
 import OrderSuccess from "../pages/Client/OrderSuccess";
 import Register from "../pages/Client/Register";
 import DetailPage from "../pages/Client/DetailPage";
-import { CartProvider } from "../Context/CartContext";
 import OrderPage from "../pages/Client/OrderPage";
 
 const ClientRouter = () => {

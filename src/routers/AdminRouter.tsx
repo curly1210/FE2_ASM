@@ -1,4 +1,4 @@
-import { Outlet, Route, Routes } from "react-router-dom";
+import { Outlet, Route } from "react-router-dom";
 import PrivateRouter from "../components/PrivateRouter";
 import LayoutAdmin from "../components/LayoutAmin";
 import Dashboard from "../pages/Admin/Dashboard";
