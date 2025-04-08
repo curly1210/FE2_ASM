@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import axios from "axios";
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { useModal } from "./ModalContext";
 import { useAuthen } from "./AuthContext";
 import useCreate from "../hooks/useCreate";
 import toast from "react-hot-toast";
+import { config } from "../api/axios";
 
 type CartProviderProps = {
   children: React.ReactNode;
@@ -32,8 +32,8 @@ export const CartProvider = ({ children }: CartProviderProps) => {
 
   useEffect(() => {
     const getCartItems = async () => {
-      const { data: cartItems } = await axios.get(
-        `http://localhost:3000/carts?idUser=${user?.user.id}`
+      const { data: cartItems } = await config.get(
+        `/carts?idUser=${user?.user.id}`
       );
 
       if (cartItems.length !== 0) {
@@ -52,14 +52,12 @@ export const CartProvider = ({ children }: CartProviderProps) => {
     if (!user) {
       setIsOpen(true);
     } else {
-      let { data: cartItems } = await axios.get(
-        `http://localhost:3000/carts?idUser=${user?.user.id}`
+      let { data: cartItems } = await config.get(
+        `/carts?idUser=${user?.user.id}`
       );
 
       if (cartItems.length === 0) {
-        const { data: product } = await axios.get(
-          `http://localhost:3000/products/${idProduct}`
-        );
+        const { data: product } = await config.get(`/products/${idProduct}`);
         const { id: ProductID, name, price, image } = product;
         const filterProduct = {
           ProductID,
@@ -101,15 +99,10 @@ export const CartProvider = ({ children }: CartProviderProps) => {
             0
           );
           const value = { ...cartItems, items: updateItem, totalPrice };
-          await axios.patch(
-            `http://localhost:3000/carts/${cartItems.id}`,
-            value
-          );
+          await config.patch(`/carts/${cartItems.id}`, value);
           console.log("Đã có ");
         } else {
-          const { data: product } = await axios.get(
-            `http://localhost:3000/products/${idProduct}`
-          );
+          const { data: product } = await config.get(`/products/${idProduct}`);
           const { id: ProductID, name, price, image } = product;
           const filterProduct = {
             ProductID,
@@ -131,10 +124,7 @@ export const CartProvider = ({ children }: CartProviderProps) => {
             totalItem: cartItems.totalItem + 1,
           };
           // console.log(updateItem);
-          await axios.patch(
-            `http://localhost:3000/carts/${cartItems.id}`,
-            value
-          );
+          await config.patch(`/carts/${cartItems.id}`, value);
 
           setQuantityItem(quantityItem + 1);
 
