@@ -15,32 +15,26 @@ import OrderPage from "../pages/Client/OrderPage";
 
 const ClientRouter = () => {
   return (
-    <ModalProvider>
-      <CartProvider>
-        <Routes>
-          <Route
-            element={
-              <LayoutClient>
-                <Outlet />
-              </LayoutClient>
-            }
-          >
-            <Route index path="/" element={<HomePage />} />
-            <Route element={<RedirectIfAuthenticated />}>
-              <Route path="login" element={<Login />} />
-              <Route path="register" element={<Register />} />
-            </Route>
-            <Route element={<RequireAuth />}>
-              <Route path="carts" element={<CartPage />} />
-              <Route path="checkout" element={<Checkout />} />
-              <Route path="order-success" element={<OrderSuccess />} />
-              <Route path="orders" element={<OrderPage />} />
-            </Route>
-            <Route path="detail-product/:id" element={<DetailPage />} />
-          </Route>
-        </Routes>
-      </CartProvider>
-    </ModalProvider>
+    <Route
+      element={
+        <LayoutClient>
+          <Outlet />
+        </LayoutClient>
+      }
+    >
+      <Route index path="/" element={<HomePage />} />
+      <Route element={<RedirectIfAuthenticated />}>
+        <Route path="login" element={<Login />} />
+        <Route path="register" element={<Register />} />
+      </Route>
+      <Route element={<RequireAuth />}>
+        <Route path="carts" element={<CartPage />} />
+        <Route path="checkout" element={<Checkout />} />
+        <Route path="order-success" element={<OrderSuccess />} />
+        <Route path="orders" element={<OrderPage />} />
+      </Route>
+      <Route path="detail-product/:id" element={<DetailPage />} />
+    </Route>
   );
 };
 export default ClientRouter;

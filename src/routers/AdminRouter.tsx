@@ -10,35 +10,35 @@ import ListOrder from "../pages/Admin/orders/list";
 
 const AdminRouter = () => {
   return (
-    <Routes>
-      <Route element={<PrivateRouter role="admin" />}>
-        <Route
-          path="admin"
-          element={
-            // <Authenticated fallback={<Navigate to="/login" replace />}>
-            <LayoutAdmin>
-              <Outlet />
-            </LayoutAdmin>
-            // </Authenticated>
-          }
-        >
-          <Route index element={<Dashboard />} />
-          <Route path="products">
-            <Route index element={<ProductListPage />} />
-            <Route path="create" element={<ProductAdd />} />
-            <Route path="update/:id" element={<ProductUpdate />} />
-          </Route>
+    // <Routes>
+    <Route element={<PrivateRouter role="admin" />}>
+      <Route
+        path="admin"
+        element={
+          // <Authenticated fallback={<Navigate to="/login" replace />}>
+          <LayoutAdmin>
+            <Outlet />
+          </LayoutAdmin>
+          // </Authenticated>
+        }
+      >
+        <Route index element={<Dashboard />} />
+        <Route path="products">
+          <Route index element={<ProductListPage />} />
+          <Route path="create" element={<ProductAdd />} />
+          <Route path="update/:id" element={<ProductUpdate />} />
+        </Route>
 
-          <Route path="users">
-            <Route index element={<UserListPage />} />
-          </Route>
+        <Route path="users">
+          <Route index element={<UserListPage />} />
+        </Route>
 
-          <Route path="orders">
-            <Route index element={<ListOrder />} />
-          </Route>
+        <Route path="orders">
+          <Route index element={<ListOrder />} />
         </Route>
       </Route>
-    </Routes>
+    </Route>
+    // </Routes>
   );
 };
 export default AdminRouter;
