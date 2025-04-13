@@ -7,6 +7,8 @@ import ProductAdd from "../pages/Admin/products/create";
 import ProductUpdate from "../pages/Admin/products/update";
 import UserListPage from "../pages/Admin/users/list";
 import ListOrder from "../pages/Admin/orders/list";
+import Statistical from "../pages/Admin/statistical/Statistical";
+import ChartMoth from "../pages/Admin/statistical/ChartMoth";
 
 const AdminRouter = () => {
   return (
@@ -36,6 +38,9 @@ const AdminRouter = () => {
         <Route path="orders">
           <Route index element={<ListOrder />} />
         </Route>
+
+        <Route path="statistical" element={<Statistical />} />
+        <Route path="testchart" element={<ChartMoth />} />
       </Route>
     </Route>
     // </Routes>

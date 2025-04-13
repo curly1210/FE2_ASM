@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import {
+  BarChartOutlined,
   InboxOutlined,
   ProductOutlined,
   UserOutlined,
@@ -31,11 +32,15 @@ const menuItems = [
     label: <Link to="/admin/orders">Đơn hàng</Link>,
     icon: <InboxOutlined />,
   },
+  {
+    key: "/admin/statistical",
+    label: <Link to="/admin/statistical">Thống kê</Link>,
+    icon: <BarChartOutlined />,
+  },
 ];
 
 const LayoutAdmin = ({ children }: LayoutAminProps) => {
   const location = useLocation();
-  console.log(location.pathname);
   const [collapsed, setCollapsed] = useState(false);
   const {
     token: { colorBgContainer, borderRadiusLG },
@@ -73,6 +78,7 @@ const LayoutAdmin = ({ children }: LayoutAminProps) => {
               borderRadius: borderRadiusLG,
             }}
           >
+            <div id="container"></div>
             {children}
           </div>
         </Content>

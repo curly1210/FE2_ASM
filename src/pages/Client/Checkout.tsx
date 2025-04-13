@@ -45,6 +45,7 @@ const Checkout = () => {
         statusOrder: "pending",
         statusPayment: false,
         orderDate: new Date(Date.now()).toISOString().split("T")[0],
+        // orderDate: Date.now(),
         items: carts?.items,
         totalPrice: carts.totalPrice,
       });
