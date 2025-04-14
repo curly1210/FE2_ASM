@@ -75,7 +75,7 @@ const OrderPage = () => {
               >
                 <div className="flex justify-between items-center mb-4">
                   <div>
-                    <p className="font-medium">Mã đơn hàng: {order?.id}</p>
+                    <p className="font-medium">Mã đơn hàng: {order?.idOrder}</p>
                     <p className="text-gray-500 font-medium">
                       Ngày đặt hàng: {order.orderDate}
                     </p>
