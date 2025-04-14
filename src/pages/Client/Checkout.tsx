@@ -7,6 +7,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../../Context/CartContext";
 import { config } from "../../api/axios";
+import axios from "axios";
 
 const Checkout = () => {
   const { user } = useAuthen();
@@ -49,31 +50,72 @@ const Checkout = () => {
     return `ORDER${randomPart}${timestampDigits}`;
   };
 
+  const handleData = (values: any) => {
+    const { id: idUser, sex, role, ...filterValue } = values;
+    const newValue = {
+      idUser,
+      ...filterValue,
+      total,
+      statusOrder: "pending",
+      // statusPayment: false,
+      orderDate: new Date(Date.now()).toISOString().split("T")[0],
+      idOrder: generateOrderCode(),
+      items: carts?.items,
+      totalPrice: carts.totalPrice,
+    };
+
+    return newValue;
+  };
+
   const onSubmit = async (values: any) => {
     try {
-      const { id: idUser, sex, role, ...filterValue } = values;
-      // console.log(values);
+      const newValues = handleData(values);
 
-      const newValue = { idUser, ...filterValue };
-      // console.log(newValue);
-      console.log(carts);
-      await config.post(`/orders`, {
-        ...newValue,
-        total,
-        statusOrder: "pending",
-        statusPayment: false,
-        orderDate: new Date(Date.now()).toISOString().split("T")[0],
-        idOrder: generateOrderCode(),
-        // orderDate: Date.now(),
-        items: carts?.items,
-        totalPrice: carts.totalPrice,
-      });
+      if (values.paymentMethod === "VNPAY") {
+        localStorage.setItem("order", JSON.stringify(newValues));
+        const res = await axios.get(
+          `http://localhost:3001/create_payment_url?amount=${carts.totalPrice}`
+        );
+        if (res.data && res.data.paymentUrl) {
+          window.location.href = res.data.paymentUrl;
+        }
+        // console.log("cuong");
+      }
+
+      if (values.paymentMethod === "COD") {
+        // console.log("cuong");
+        console.log(newValues);
+        await config.post(`/orders`, { ...newValues, statusPayment: false });
+        await config.delete(`/carts/${carts?.id}`);
+        setQuantityItem(0);
+
+        navigate("/order-success", { replace: true });
+      }
+
+      // Code đúng
+      // const { id: idUser, sex, role, ...filterValue } = values;
+      // // console.log(values);
+
+      // const newValue = { idUser, ...filterValue };
+      // // console.log(newValue);
+      // console.log(carts);
+      // await config.post(`/orders`, {
+      // ...newValue,
+      // total,
+      // statusOrder: "pending",
+      // statusPayment: false,
+      // orderDate: new Date(Date.now()).toISOString().split("T")[0],
+      // idOrder: generateOrderCode(),
+      // // orderDate: Date.now(),
+      // items: carts?.items,
+      // totalPrice: carts.totalPrice,
+      // });
 
       // carts?.items.map(async (item: any) => {
-      await config.delete(`/carts/${carts?.id}`);
-      setQuantityItem(0);
+      // await config.delete(`/carts/${carts?.id}`);
+      // setQuantityItem(0);
 
-      navigate("/order-success", { replace: true });
+      // navigate("/order-success", { replace: true });
     } catch (error) {
       console.log(error);
     }
@@ -221,8 +263,43 @@ const Checkout = () => {
             </p>
             <hr className="my-8 border-[#A3A3A3]" />
             <div>
-              <input type="radio" defaultChecked />
-              <span className="font-medium ml-2">Thanh toán khi nhận hàng</span>
+              <div>
+                <input
+                  type="radio"
+                  value="COD"
+                  {...register("paymentMethod", {
+                    required: {
+                      value: true,
+                      message: "Chọn phương thức thanh toán",
+                    },
+                  })}
+                  // defaultChecked
+                />
+                <span className="font-medium ml-2">
+                  Thanh toán khi nhận hàng
+                </span>
+              </div>
+              <div>
+                <input
+                  type="radio"
+                  value="VNPAY"
+                  {...register("paymentMethod", {
+                    required: {
+                      value: true,
+                      message: "Chọn phương thức thanh toán",
+                    },
+                  })}
+                  // defaultChecked
+                />
+                <span className="font-medium ml-2">
+                  Thanh toán online qua VNPay
+                </span>
+              </div>
+              {errors?.paymentMethod?.message && (
+                <p className="text-red-400 mt-1">
+                  {(errors?.paymentMethod as any).message}
+                </p>
+              )}
             </div>
             <div className="flex justify-center mt-8">
               <button

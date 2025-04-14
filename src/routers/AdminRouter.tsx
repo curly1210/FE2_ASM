@@ -1,7 +1,7 @@
-import { Outlet, Route } from "react-router-dom";
+import { Navigate, Outlet, Route } from "react-router-dom";
 import PrivateRouter from "../components/PrivateRouter";
 import LayoutAdmin from "../components/LayoutAmin";
-import Dashboard from "../pages/Admin/Dashboard";
+// import Dashboard from "../pages/Admin/Dashboard";
 import ProductListPage from "../pages/Admin/products/list";
 import ProductAdd from "../pages/Admin/products/create";
 import ProductUpdate from "../pages/Admin/products/update";
@@ -24,7 +24,8 @@ const AdminRouter = () => {
           // </Authenticated>
         }
       >
-        <Route index element={<Dashboard />} />
+        <Route index element={<Navigate to="products" replace />} />
+        {/* <Route index element={<Dashboard />} /> */}
         <Route path="products">
           <Route index element={<ProductListPage />} />
           <Route path="create" element={<ProductAdd />} />

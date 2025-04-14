@@ -51,6 +51,11 @@ const ListOrder = () => {
       key: "phone",
     },
     {
+      title: "Phương thức thanh toán",
+      dataIndex: "paymentMethod",
+      key: "paymentMethod",
+    },
+    {
       title: "Trạng thái đơn hàng",
       dataIndex: "statusOrder",
       key: "statusOrder",
