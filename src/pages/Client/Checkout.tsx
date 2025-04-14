@@ -31,6 +31,24 @@ const Checkout = () => {
     reset,
   } = useForm();
 
+  const generateOrderCode = () => {
+    const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    let randomPart = "";
+    for (let i = 0; i < 5; i++) {
+      const randomIndex = Math.floor(Math.random() * characters.length);
+      randomPart += characters[randomIndex];
+    }
+
+    const timestampStr = Date.now().toString();
+    let timestampDigits = "";
+    for (let i = 0; i < 4; i++) {
+      const randomIndex = Math.floor(Math.random() * timestampStr.length);
+      timestampDigits += timestampStr[randomIndex];
+    }
+
+    return `ORDER${randomPart}${timestampDigits}`;
+  };
+
   const onSubmit = async (values: any) => {
     try {
       const { id: idUser, sex, role, ...filterValue } = values;
@@ -45,6 +63,7 @@ const Checkout = () => {
         statusOrder: "pending",
         statusPayment: false,
         orderDate: new Date(Date.now()).toISOString().split("T")[0],
+        idOrder: generateOrderCode(),
         // orderDate: Date.now(),
         items: carts?.items,
         totalPrice: carts.totalPrice,

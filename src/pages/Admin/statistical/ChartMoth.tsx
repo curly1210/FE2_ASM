@@ -5,6 +5,8 @@ import {
   CategoryScale,
   LinearScale,
   BarElement,
+  PointElement,
+  LineElement,
   Title,
   Tooltip,
   Legend,
@@ -18,6 +20,8 @@ ChartJS.register(
   CategoryScale,
   LinearScale,
   BarElement,
+  PointElement,
+  LineElement,
   Title,
   Tooltip,
   Legend
@@ -85,12 +89,18 @@ const ChartMonth = () => {
         data: data.map((item) => item.revenue),
         backgroundColor: "#1677ff",
         borderRadius: 3,
-        barThickness: 40,
+        // barThickness: 30,
+
+        barThickness: "flex" as const, // 👈 để tự co giãn theo kích thước
+
+        // categoryPercentage: 0.5, // 👈 tăng khoảng cách giữa nhóm
+        barPercentage: 0.9,
       },
     ],
   };
 
   const options = {
+    responsive: true,
     plugins: {
       legend: {
         display: false,

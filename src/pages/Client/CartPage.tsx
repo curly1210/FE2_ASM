@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useQuery } from "@tanstack/react-query";
 import { useAuthen } from "../../Context/AuthContext";
@@ -6,6 +5,7 @@ import CartItem from "./CartItem";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { config } from "../../api/axios";
+import EmptyCartPage from "./EmptyCartPage";
 
 const CartPage = () => {
   const { user } = useAuthen();
@@ -36,6 +36,7 @@ const CartPage = () => {
 
   if (!cartList) return <div>Không tìm thấy sản phẩm</div>;
 
+  if (cartList.length === 0) return <EmptyCartPage />;
   // console.log(carts);
 
   return (

@@ -1,10 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { config } from "../../api/axios";
+import { useCart } from "../../Context/CartContext";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 const CartItem = ({ cartItem, formatCurrency, carts, setCarts }: any) => {
   const [quantity, setQuantity] = useState(cartItem.quantity | 0);
+  const { quantityItem, setQuantityItem } = useCart();
 
   const fetchProductById = async (idProduct: number) => {
     const { data } = await config.get(`/products/${idProduct}`);
@@ -34,6 +36,43 @@ const CartItem = ({ cartItem, formatCurrency, carts, setCarts }: any) => {
       const { data } = await config.patch(`/carts/${carts.id}`, value);
 
       return data;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const onRemove = async () => {
+    try {
+      if (confirm("Xóa sản phẩm trong giỏ hàng")) {
+        if (carts?.items.length === 1) {
+          await config.delete(`/carts/${carts.id}`);
+          setCarts({});
+          // console.log("có 1");
+        } else {
+          const updateItem = carts?.items?.filter((item: any) => {
+            if (item.ProductID !== cartItem.ProductID) {
+              return item;
+            }
+          });
+
+          const totalPrice = updateItem?.reduce(
+            (acc: any, item: any) => acc + item.subtotal,
+            0
+          );
+
+          const value = {
+            ...carts,
+            totalPrice,
+            totalItem: carts.totalItem - 1,
+            items: updateItem,
+          };
+
+          const { data } = await config.patch(`/carts/${carts.id}`, value);
+          setCarts(data);
+        }
+
+        setQuantityItem(quantityItem - 1);
+      }
     } catch (error) {
       console.log(error);
     }
@@ -95,7 +134,10 @@ const CartItem = ({ cartItem, formatCurrency, carts, setCarts }: any) => {
       </td>
       <td>{formatCurrency(quantity * product?.price)}</td>
       <td>
-        <i className="fa-solid fa-trash text-red-500"></i>
+        <i
+          onClick={() => onRemove()}
+          className="fa-solid fa-trash cursor-pointer text-red-500"
+        ></i>
       </td>
     </tr>
   );

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import galery_1 from "../../assets/gallery_1.jpg";
 import galery_2 from "../../assets/gallery_2.png";

@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Select } from "antd";
 import axios from "axios";
 import { useMemo, useState } from "react";
-import { Bar } from "react-chartjs-2";
+import { Line } from "react-chartjs-2";
 
 const ChartDay = () => {
   const [day, setDay] = useState(7);
@@ -67,9 +67,15 @@ const ChartDay = () => {
       {
         label: "Doanh thu (VND)",
         data: dataChart.map((item: any) => item.revenue),
-        backgroundColor: "#1677ff",
-        borderRadius: 3,
-        barThickness: 40,
+        borderColor: "#1677ff",
+        backgroundColor: "#1677ff55",
+        tension: 0.3, // độ cong của line
+        fill: true, // nếu
+        pointRadius: 5, //
+        pointHoverRadius: 10, //
+        // backgroundColor: "#1677ff",
+        // borderRadius: 3,
+        // barThickness: 40,
       },
     ],
   };
@@ -91,6 +97,13 @@ const ChartDay = () => {
       },
     },
     scales: {
+      x: {
+        ticks: {
+          autoSkip: false,
+          maxRotation: 45, // xoay nhãn để không bị đè nhau
+          minRotation: 30,
+        },
+      },
       y: {
         ticks: {
           callback: function (value: number | string) {
@@ -121,7 +134,7 @@ const ChartDay = () => {
           <Select.Option value="21">21 ngày gần nhất</Select.Option>
         </Select>
       </div>
-      <Bar data={chartData} options={options} />
+      <Line data={chartData} options={options} />
     </div>
   );
 };

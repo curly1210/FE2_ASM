@@ -1,12 +1,12 @@
 import { Link } from "react-router-dom";
 
-const OrderSuccess = () => {
+const EmptyCartPage = () => {
   return (
     <div>
       <section className="container max-w-7xl m-auto my-16 flex flex-col justify-between items-center gap-10">
-        <h1 className="text-4xl font-semibold">Đặt hàng thành công</h1>
+        <h1 className="text-4xl font-semibold">Giỏ hàng trống</h1>
         <img
-          src="https://cdn-icons-png.flaticon.com/512/5610/5610944.png"
+          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS-yrKy00koNPRSg-MAE5rkMmy2HiIAE4U_HQ&s"
           alt=""
           width={200}
         />
@@ -19,4 +19,4 @@ const OrderSuccess = () => {
     </div>
   );
 };
-export default OrderSuccess;
+export default EmptyCartPage;

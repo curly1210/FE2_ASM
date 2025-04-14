@@ -37,8 +37,8 @@ const ListOrder = () => {
   const columns = [
     {
       title: "Mã đơn hàng",
-      dataIndex: "id",
-      key: "id",
+      dataIndex: "idOrder",
+      key: "idOrder",
     },
     {
       title: "Họ tên",
@@ -96,7 +96,7 @@ const ListOrder = () => {
     <div>
       <h2 className="text-xl font-bold mb-3">Danh sách đơn hàng</h2>
 
-      <Table dataSource={dataSource} columns={columns} />
+      <Table dataSource={[...dataSource].reverse()} columns={columns} />
     </div>
   );
 };

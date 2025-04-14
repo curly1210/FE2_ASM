@@ -100,7 +100,7 @@ export const CartProvider = ({ children }: CartProviderProps) => {
           );
           const value = { ...cartItems, items: updateItem, totalPrice };
           await config.patch(`/carts/${cartItems.id}`, value);
-          console.log("Đã có ");
+          // console.log("Đã có ");
         } else {
           const { data: product } = await config.get(`/products/${idProduct}`);
           const { id: ProductID, name, price, image } = product;
@@ -128,11 +128,11 @@ export const CartProvider = ({ children }: CartProviderProps) => {
 
           setQuantityItem(quantityItem + 1);
 
-          console.log("Chưa có");
+          // console.log("Chưa có");
         }
       }
 
-      toast.success("Thêm vào giỏ hàng thành công ");
+      toast.success(`Thêm ${quantity} sản phẩm vào giỏ hàng`);
     }
   };
 
