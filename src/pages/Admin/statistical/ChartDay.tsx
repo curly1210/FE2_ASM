@@ -52,7 +52,7 @@ const ChartDay = () => {
 
     setDataChart(result);
 
-    console.log(result);
+    // console.log(result);
   }, [orders, day]);
 
   const onChangeDay = (value: any) => {

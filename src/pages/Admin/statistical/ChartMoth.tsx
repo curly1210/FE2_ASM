@@ -67,7 +67,8 @@ const ChartMonth = () => {
   const filteredOrders = orders.reduce((acc: any, order: any) => {
     // Lấy tháng từ orderDate
     const date = new Date(order.orderDate);
-    const month = date.toLocaleString("default", { month: "short" }); // chỉ lấy tháng
+    const month = date.toLocaleString("en-US", { month: "short" }); // chỉ lấy tháng
+    // console.log(month);
     if (!acc[month]) {
       acc[month] = 0;
     }
